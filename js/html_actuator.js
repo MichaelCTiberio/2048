@@ -24,14 +24,9 @@ HTMLActuator.prototype.actuate = function (grid, metadata) {
     self.updateScore(metadata.score);
     self.updateBestScore(metadata.bestScore);
 
-    if (metadata.terminated) {
-      if (metadata.over) {
-        self.message(false); // You lose
-      } else if (metadata.won) {
-        self.message(true); // You win!
-      }
+    if (metadata.over) {
+      self.GameOverMessage();
     }
-
   });
 };
 
@@ -124,16 +119,11 @@ HTMLActuator.prototype.updateBestScore = function (bestScore) {
   this.bestContainer.textContent = bestScore;
 };
 
-HTMLActuator.prototype.message = function (won) {
-  var type    = won ? "game-won" : "game-over";
-  var message = won ? "You win!" : "Game over!";
-
-  this.messageContainer.classList.add(type);
-  this.messageContainer.getElementsByTagName("p")[0].textContent = message;
+HTMLActuator.prototype.GameOverMessage = function () {
+  this.messageContainer.classList.add("game-over");
+  this.messageContainer.getElementsByTagName("p")[0].textContent = "Game over!";
 };
 
 HTMLActuator.prototype.clearMessage = function () {
-  // IE only takes one value to remove at a time.
-  this.messageContainer.classList.remove("game-won");
   this.messageContainer.classList.remove("game-over");
 };
